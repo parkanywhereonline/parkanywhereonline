@@ -8,7 +8,8 @@ public class Spot {
     // The location of the spot
     private Location location;
 
-    public Spot(double price, double lat, double lng) {
-
+    Spot(boolean enabled, Location location) {
+        this.enabled = enabled;
+        this.location = location;
     }
 }
