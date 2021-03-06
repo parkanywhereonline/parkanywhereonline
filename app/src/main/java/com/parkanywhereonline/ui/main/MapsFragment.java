@@ -46,10 +46,11 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            map = googleMap;
             updateMapToLocationIfEnabled();
             LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
         }
     };
@@ -65,6 +66,7 @@ public class MapsFragment extends Fragment {
         }
 
         if (areLocationPermissionsEnabled()){
+            client = LocationServices.getFusedLocationProviderClient(getContext());
             Task location = client.getLastLocation();
 
             client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
