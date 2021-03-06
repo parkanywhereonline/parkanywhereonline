@@ -66,22 +66,9 @@ public class MapsFragment extends Fragment {
         }
 
         if (areLocationPermissionsEnabled()){
-            client = LocationServices.getFusedLocationProviderClient(getContext());
-            Task location = client.getLastLocation();
-
-            map.setMyLocationEnabled(true);
-            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    if(task.isSuccessful()){
-                        Location currentLocation = (Location) task.getResult();
-                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()) ,10f);
-                    }
-                }
-            });
-
-                }
-            }
+            setMapToLastLocation();
+        }
+    }
     public void moveCamera(LatLng latlng, float zoom){
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
     }
@@ -110,19 +97,17 @@ public class MapsFragment extends Fragment {
         }
     }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-//                                           @NonNull int[] grantResults) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//
-//        if (requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED
-//            && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-//
-//            // Get the location and update the UI
-//            // Update the map with the current location
-//            // Set the center of the map to be user's location
-//        }
-//    }
+    @SuppressLint("MissingPermission")
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQUEST_CODE && (grantResults[0] == PackageManager.PERMISSION_GRANTED
+            || grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
+            setMapToLastLocation();
+        }
+    }
 
     public boolean areLocationPermissionsEnabled() {
         return (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
@@ -131,4 +116,20 @@ public class MapsFragment extends Fragment {
                         == PackageManager.PERMISSION_GRANTED);
     }
 
+    @SuppressLint("MissingPermission")
+    public void setMapToLastLocation() {
+        client = LocationServices.getFusedLocationProviderClient(getContext());
+        Task location = client.getLastLocation();
+
+        map.setMyLocationEnabled(true);
+        client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                if(task.isSuccessful()){
+                    Location currentLocation = (Location) task.getResult();
+                    moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()) ,10f);
+                }
+            }
+        });
+    }
 }
