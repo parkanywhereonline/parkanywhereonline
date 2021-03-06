@@ -39,7 +39,7 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            locationPermission();
+            updateMapToLocationIfEnabled();
             LatLng sydney = new LatLng(-34, 151);
             googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
@@ -48,15 +48,18 @@ public class MapsFragment extends Fragment {
     };
 
 
-    public void locationPermission() {
+    public void updateMapToLocationIfEnabled() {
 
 
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED ||
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
+        if (!areLocationPermissionsEnabled()) {
             requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
+        }
+
+        if (areLocationPermissionsEnabled()){
+            // Get the location and update the UI
+            // Update the map with the current location
+            // Set the center of the map to be user's location
         }
     }
 
@@ -79,18 +82,24 @@ public class MapsFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+//                                           @NonNull int[] grantResults) {
+//        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//
+//        if (requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED
+//            && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+//
+//            // Get the location and update the UI
+//            // Update the map with the current location
+//            // Set the center of the map to be user's location
+//        }
+//    }
 
-        if (requestCode == REQUEST_CODE && grantResults[0] == PackageManager.PERMISSION_GRANTED
-            && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
-            client = LocationServices.getFusedLocationProviderClient(getActivity());
-
-            // Get the location and update the UI
-            // Update the map with the current location
-            // Set the center of the map to be user's location
-        }
+    public boolean areLocationPermissionsEnabled() {
+        return (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED);
     }
 }
