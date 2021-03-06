@@ -6,7 +6,11 @@ import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +24,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.parkanywhereonline.R;
 
 public class MapsFragment extends Fragment {
     private FusedLocationProviderClient client;
+    private GoogleMap map;
     private final int REQUEST_CODE = 991;
 
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
@@ -48,6 +55,7 @@ public class MapsFragment extends Fragment {
     };
 
 
+    @SuppressLint("MissingPermission")
     public void updateMapToLocationIfEnabled() {
 
 
@@ -57,11 +65,28 @@ public class MapsFragment extends Fragment {
         }
 
         if (areLocationPermissionsEnabled()){
+            Task location = client.getLastLocation();
+
+            client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if(task.isSuccessful()){
+                        Location currentLocation = (Location) task.getResult();
+                        moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()) ,10f);
+                    }
+                }
+            });
+
+                }
+            }
+    public void moveCamera(LatLng latlng, float zoom){
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
+    }
             // Get the location and update the UI
             // Update the map with the current location
             // Set the center of the map to be user's location
-        }
-    }
+
+
 
 
     @Nullable
@@ -102,4 +127,5 @@ public class MapsFragment extends Fragment {
                 ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
                         == PackageManager.PERMISSION_GRANTED);
     }
+
 }
