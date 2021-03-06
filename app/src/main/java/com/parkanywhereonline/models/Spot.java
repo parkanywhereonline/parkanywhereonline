@@ -12,4 +12,20 @@ public class Spot {
         this.enabled = enabled;
         this.location = location;
     }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }
