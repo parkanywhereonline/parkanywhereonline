@@ -69,6 +69,7 @@ public class MapsFragment extends Fragment {
             client = LocationServices.getFusedLocationProviderClient(getContext());
             Task location = client.getLastLocation();
 
+            map.setMyLocationEnabled(true);
             client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
                 @Override
                 public void onComplete(@NonNull Task<Location> task) {
