@@ -10,7 +10,7 @@ public class Spot {
     // The location of the spot
     private Location location;
 
-    Spot(String name, boolean enabled, Location location) {
+    public Spot(String name, boolean enabled, Location location) {
         this.name = name;
         this.enabled = enabled;
         this.location = location;
