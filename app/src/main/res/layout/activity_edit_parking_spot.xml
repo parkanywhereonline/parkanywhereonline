@@ -52,7 +52,7 @@
 
     <fragment
         android:id="@+id/fragment"
-        android:name="com.parkanywhereonline.ui.main.MapsFragment"
+        android:name="com.parkanywhereonline.ui.main.MapsHomescreenFragment"
         android:layout_width="370dp"
         android:layout_height="336dp"
         tools:layout_editor_absoluteX="24dp"

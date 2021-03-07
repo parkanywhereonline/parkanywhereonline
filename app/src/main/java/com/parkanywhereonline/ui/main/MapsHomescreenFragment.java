@@ -1,19 +1,18 @@
 package com.parkanywhereonline.ui.main;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -30,9 +29,8 @@ import com.parkanywhereonline.AddSpotActivity;
 import com.parkanywhereonline.R;
 
 import java.util.HashMap;
-import java.util.Objects;
 
-public class MapsFragment extends Fragment {
+public class MapsHomescreenFragment extends Fragment {
     private FusedLocationProviderClient client;
     private GoogleMap map;
     private final int REQUEST_CODE = 991;
@@ -67,23 +65,6 @@ public class MapsFragment extends Fragment {
                             .position(theTrapHouse)
                             .draggable(true));
 
-            map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
-                @Override
-                public void onMarkerDragStart(Marker marker) {
-
-                }
-
-                @Override
-                public void onMarkerDrag(Marker marker) {
-
-                }
-
-                @Override
-                public void onMarkerDragEnd(Marker marker) {
-                    // Pass the marker from the fragment to its parent activity
-                    ((AddSpotActivity) getActivity()).setMarker(marker);
-                }
-            });
         }
     };
 
@@ -116,7 +97,7 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        return inflater.inflate(R.layout.fragment_homescreen_maps, container, false);
     }
 
     @Override
