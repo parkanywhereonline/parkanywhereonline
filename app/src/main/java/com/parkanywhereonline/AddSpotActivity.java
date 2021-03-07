@@ -51,6 +51,8 @@ public class AddSpotActivity extends AppCompatActivity {
         Spot spot = new Spot(getName, getAddress, true, location, getPrice);
         // Add spot to user by ID
         userCollection.addSpotToUserByID(spot);
+
+        finish();
     }
 
     public void setMarker(Marker marker) {
