@@ -22,8 +22,10 @@ public class SignInActivity extends AppCompatActivity {
 
         // Check if user is already signed in
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        if (auth.getCurrentUser() != null)
+        if (auth.getCurrentUser() != null) {
             switchToMainActivity();
+            return;
+        }
 
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
@@ -50,6 +52,7 @@ public class SignInActivity extends AppCompatActivity {
                 // Successfully signed in
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 switchToMainActivity();
+                return;
             } else {
                 // Breakpoint
                 finish();
