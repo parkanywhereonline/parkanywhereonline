@@ -6,6 +6,7 @@
     <string name="find_parking_tab">Find Parking</string>
     <string name="my_spots_tab">My Spots</string>
     <string name="title_activity_add_spot">AddSpotActivity</string>
+    <string name="parking_space_photo_description">A photo of the parking space</string>
 
     <!-- Preference Titles -->
     <string name="messages_header">Messages</string>
@@ -21,4 +22,8 @@
     <string name="attachment_summary_on">Automatically download attachments for incoming emails
     </string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="address">Address</string>
+    <string name="price">Price</string>
+    <string name="name">Name</string>
 </resources>

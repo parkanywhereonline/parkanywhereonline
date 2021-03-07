@@ -4,95 +4,81 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.google.android.material.appbar.AppBarLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.Design.NoActionBar"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+        android:theme="@style/Theme.Design.NoActionBar">
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="172dp"
-            android:layout_height="151dp"
-            android:layout_marginEnd="24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/spotPrice"
-            app:layout_constraintEnd_toStartOf="@+id/spotAddress"
-            app:layout_constraintHorizontal_bias="0.01"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/spotName"
-            tools:srcCompat="@tools:sample/avatars" />
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="172dp"
+                android:layout_height="151dp"
+                android:contentDescription="@string/parking_space_photo_description"
+                tools:srcCompat="@tools:sample/avatars" />
 
-        <EditText
-            android:id="@+id/spotAddress"
-            android:layout_width="170dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Address"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spotName" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/spotName"
-            android:layout_width="170dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                <EditText
+                    android:id="@+id/spotName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Name"
+                    android:hint="@string/name"
+                    android:inputType="textPersonName"
+                    tools:ignore="LabelFor" />
 
-        <EditText
-            android:id="@+id/spotPrice"
-            android:layout_width="170dp"
-            android:layout_height="38dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="20dp"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Price"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spotAddress" />
+                <EditText
+                    android:id="@+id/spotAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Address"
+                    android:hint="@string/address"
+                    android:inputType="textPersonName"
+                    tools:ignore="LabelFor" />
+
+                <EditText
+                    android:id="@+id/spotPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="Price"
+                    android:hint="@string/price"
+                    android:inputType="numberDecimal"
+                    tools:ignore="LabelFor" />
+
+            </LinearLayout>
+        </LinearLayout>
 
         <fragment
             android:id="@+id/fragment2"
-            android:name="com.parkanywhereonline.ui.main.MapsFragment"
-            android:layout_width="0dp"
-            android:layout_height="384dp"
-            android:layout_marginTop="48dp"
-            android:layout_marginBottom="2dp"
-            app:layout_constraintBottom_toTopOf="@+id/button2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spotPrice"
-            app:layout_constraintVertical_bias="0.0" />
+            android:name="com.parkanywhereonline.ui.main.AddSpotMapsFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button2"
-            android:layout_width="413dp"
-            android:layout_height="86dp"
-            android:paddingLeft="0dp"
-            android:paddingTop="0dp"
-            android:paddingRight="0dp"
-            android:paddingBottom="0dp"
-            android:text="CONFIRM"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:id="@+id/btnConfirmAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="confirmSpot"
+            android:text="@string/confirm" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
+
+</LinearLayout>

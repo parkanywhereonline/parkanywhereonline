@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,12 +21,16 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.parkanywhereonline.AddSpotActivity;
 import com.parkanywhereonline.R;
 
-public class MapsFragment extends Fragment {
+import java.util.HashMap;
+
+public class MapsHomescreenFragment extends Fragment {
     private FusedLocationProviderClient client;
     private GoogleMap map;
     private final int REQUEST_CODE = 991;
@@ -46,14 +48,23 @@ public class MapsFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
+            /**
+             * Create your variable where you store all your data mapped to the marker ID,
+             * make it accessible where you want.
+             * The key of this hashmap is your marker ID, the value is another Map with extra data
+             */
+            HashMap<String, HashMap> extraMarkerInfo = new HashMap<String, HashMap>();
+
+            // Map stuff
             map = googleMap;
             updateMapToLocationIfEnabled();
             final LatLng theTrapHouse = new LatLng(42.995935, -81.279263);
             map.moveCamera(CameraUpdateFactory.newLatLng(theTrapHouse));
-            map.addMarker(
+            Marker marker = map.addMarker(
                     new MarkerOptions()
                             .position(theTrapHouse)
                             .draggable(true));
+
         }
     };
 
@@ -86,7 +97,7 @@ public class MapsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps, container, false);
+        return inflater.inflate(R.layout.fragment_homescreen_maps, container, false);
     }
 
     @Override
