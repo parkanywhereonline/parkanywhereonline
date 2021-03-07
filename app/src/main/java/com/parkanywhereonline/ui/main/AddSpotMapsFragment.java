@@ -28,11 +28,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.parkanywhereonline.AddSpotActivity;
 import com.parkanywhereonline.R;
+import com.parkanywhereonline.util.LocationUtil;
 
 import java.util.HashMap;
 import java.util.Objects;
 
-public class MapsFragment extends Fragment {
+public class AddSpotMapsFragment extends Fragment {
     private FusedLocationProviderClient client;
     private GoogleMap map;
     private final int REQUEST_CODE = 991;
@@ -60,12 +61,6 @@ public class MapsFragment extends Fragment {
             // Map stuff
             map = googleMap;
             updateMapToLocationIfEnabled();
-            final LatLng theTrapHouse = new LatLng(42.995935, -81.279263);
-            map.moveCamera(CameraUpdateFactory.newLatLng(theTrapHouse));
-            Marker marker = map.addMarker(
-                    new MarkerOptions()
-                            .position(theTrapHouse)
-                            .draggable(true));
 
             map.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
                 @Override
@@ -92,24 +87,18 @@ public class MapsFragment extends Fragment {
     public void updateMapToLocationIfEnabled() {
 
 
-        if (!areLocationPermissionsEnabled()) {
+        if (!LocationUtil.areLocationPermissionsEnabled(getActivity())) {
             requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, REQUEST_CODE);
         }
 
-        if (areLocationPermissionsEnabled()){
+        if (LocationUtil.areLocationPermissionsEnabled(getActivity())){
             setMapToLastLocation();
         }
     }
     public void moveCamera(LatLng latlng, float zoom){
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, zoom));
     }
-            // Get the location and update the UI
-            // Update the map with the current location
-            // Set the center of the map to be user's location
-
-
-
 
     @Nullable
     @Override
@@ -141,17 +130,9 @@ public class MapsFragment extends Fragment {
         }
     }
 
-    public boolean areLocationPermissionsEnabled() {
-        return (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED);
-    }
-
     @SuppressLint("MissingPermission")
     public void setMapToLastLocation() {
         client = LocationServices.getFusedLocationProviderClient(getContext());
-        Task location = client.getLastLocation();
 
         map.setMyLocationEnabled(true);
         client.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
@@ -159,7 +140,16 @@ public class MapsFragment extends Fragment {
             public void onComplete(@NonNull Task<Location> task) {
                 if(task.isSuccessful()){
                     Location currentLocation = (Location) task.getResult();
-                    moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()) ,10f);
+                    double lat = currentLocation.getLatitude();
+                    double lng = currentLocation.getLongitude();
+                    moveCamera(new LatLng(lat,
+                            lng) ,10f);
+
+                    final LatLng start = new LatLng(lat, lng);
+                    Marker marker = map.addMarker(
+                            new MarkerOptions()
+                                    .position(start)
+                                    .draggable(true));
                 }
             }
         });

@@ -5,9 +5,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parkanywhereonline.models.Location;
@@ -15,7 +19,6 @@ import com.parkanywhereonline.models.Spot;
 import com.parkanywhereonline.models.firestore.UserCollection;
 
 public class AddSpotActivity extends AppCompatActivity {
-
     private EditText nameInput;
     private EditText addressInput;
     private EditText priceInput;
