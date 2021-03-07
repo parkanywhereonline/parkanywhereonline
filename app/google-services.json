@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "833880091485",
+    "firebase_url": "https://park-anywhere-online-default-rtdb.firebaseio.com",
     "project_id": "park-anywhere-online",
     "storage_bucket": "park-anywhere-online.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:833880091485:android:b824880f8940d6188456b4",
+        "mobilesdk_app_id": "1:833880091485:android:a721c966187dac048456b4",
         "android_client_info": {
           "package_name": "com.parkanywhereonline"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "833880091485-22tgp664t6iuh65dn3s66sda8jnao4e6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.parkanywhereonline",
+            "certificate_hash": "ec8b5bd1044e178718fd014c858da0b05425962b"
+          }
+        },
         {
           "client_id": "833880091485-8kiupmrnrtfs65kavnif5oaescgauv91.apps.googleusercontent.com",
           "client_type": 3
@@ -20,7 +29,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDxUc26-ExuteMceectzXojVV-K4s-Ruc8"
+          "current_key": "AIzaSyDmOPwWcsbtRrZN8cU0yEWCngGgpTO95Kw"
         }
       ],
       "services": {

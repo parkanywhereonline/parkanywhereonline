@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.parkanywhereonline.R;
+import com.parkanywhereonline.models.Spot;
 import com.parkanywhereonline.ui.main.dummy.DummyContent;
+
+import java.util.ArrayList;
 
 /**
  * A fragment representing a list of Items.
@@ -65,7 +68,7 @@ public class SpotFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MySpotRecyclerViewAdapter(DummyContent.ITEMS));
+            recyclerView.setAdapter(new MySpotRecyclerViewAdapter(new ArrayList<Spot>()));
         }
         return view;
     }
