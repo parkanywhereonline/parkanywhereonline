@@ -1,8 +1,10 @@
 package com.parkanywhereonline.ui.main;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -10,24 +12,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.GeoPoint;
-import com.parkanywhereonline.EditParkingSpotActivity;
-import com.parkanywhereonline.MainActivity;
 import com.parkanywhereonline.R;
-import com.parkanywhereonline.models.Location;
 import com.parkanywhereonline.models.Spot;
-import com.parkanywhereonline.models.firestore.SpotsCollection;
-import com.parkanywhereonline.ui.main.dummy.DummyContent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,23 +65,23 @@ public class SpotFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         List spotList = new ArrayList<Spot>();
-        spotList.add(new Spot("Trap house", "420 fox ave",true, null, "$0.00"));
+//        spotList.add(new Spot("Trap house", "420 fox ave",true, null, "$0.00"));
 
-        // Test spot read
-        SpotsCollection spotsCollection = new SpotsCollection();
-        spotsCollection.getSpotCollection().document("LeLDc4JzkxZkLm50bFpI").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+//        // Test spot read
+//        SpotsCollection spotsCollection = new SpotsCollection();
+//        spotsCollection.getSpotCollection().document("LeLDc4JzkxZkLm50bFpI").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
 //                        Log.d("Name", document.getString("name") + ", " + document.getString("address"));
-                        String nameOfSpot = document.getString("name");
-                        GeoPoint geoPoint = document.getGeoPoint("location");
-                    }
-                }
-            }
-        });
+//                        String nameOfSpot = document.getString("name");
+//                        GeoPoint geoPoint = document.getGeoPoint("location");
+//                    }
+//                }
+//            }
+//        });
 
 
         // Set the adapter

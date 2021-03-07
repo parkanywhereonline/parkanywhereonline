@@ -6,19 +6,26 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.material.textfield.TextInputEditText;
-import com.parkanywhereonline.models.Location;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
 import com.parkanywhereonline.models.Spot;
-import com.parkanywhereonline.models.firestore.UserCollection;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class AddSpotActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
     private EditText nameInput;
     private EditText addressInput;
     private EditText priceInput;
@@ -35,22 +42,48 @@ public class AddSpotActivity extends AppCompatActivity {
         nameInput = findViewById(R.id.spotName);
         addressInput = findViewById(R.id.spotAddress);
         priceInput = findViewById(R.id.spotPrice);
+
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
     }
 
     public void confirmSpot(View view) {
-        Log.d("marker", marker.getPosition().latitude + ", " + marker.getPosition().longitude);
-        UserCollection userCollection = new UserCollection();
+        double lat = marker.getPosition().latitude;
+        double lng = marker.getPosition().longitude;
+        Log.d("marker", lat + ", " + lng);
 
         // Get variables
         String getName = nameInput.getText().toString();
         String getAddress = addressInput.getText().toString();
         String getPrice = priceInput.getText().toString();
-        Location location = new Location(marker.getPosition().latitude, marker.getPosition().longitude);
+        GeoPoint location = new GeoPoint(lat, lng);
 
         // Generate spot object
         Spot spot = new Spot(getName, getAddress, true, location, getPrice);
-        // Add spot to user by ID
-        userCollection.addSpotToUserByID(spot);
+        // Add to database
+        Task<DocumentReference> addTask = db.collection("spots").add(spot);
+
+        addTask.addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                String uid = auth.getCurrentUser().getUid();
+                String path = documentReference.getPath();
+                db.collection("users").document(uid)
+                        .update("spots", FieldValue.arrayUnion(path))
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                // Document does not exist yet
+                                db.collection("users").document(uid)
+                                        .set(new HashMap<String, Object>() {{
+                                            put("spots", new ArrayList<String>() {{
+                                                add(path);
+                                            }});
+                                        }});
+                            }
+                        });
+            }
+        });
 
         finish();
     }

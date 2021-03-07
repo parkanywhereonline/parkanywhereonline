@@ -150,6 +150,7 @@ public class AddSpotMapsFragment extends Fragment {
                             new MarkerOptions()
                                     .position(start)
                                     .draggable(true));
+                    ((AddSpotActivity) getActivity()).setMarker(marker);
                 }
             }
         });

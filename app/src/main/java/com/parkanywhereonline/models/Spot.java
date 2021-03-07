@@ -1,5 +1,8 @@
 package com.parkanywhereonline.models;
 
+import com.google.firebase.firestore.GeoPoint;
+
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +16,9 @@ public class Spot {
     // The price of the spot
     private String price;
     // The location of the spot
-    private Location location;
+    private GeoPoint location;
 
-    public Spot(String name, String address, boolean enabled, Location location, String price) {
+    public Spot(String name, String address, boolean enabled, GeoPoint location, String price) {
         this.name = name;
         this.address = address;
         this.enabled = enabled;
@@ -31,26 +34,15 @@ public class Spot {
         return name;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
     public String getPrice() {
         return price;
     }
 
-    public Location getLocation() {
+    public GeoPoint getLocation() {
         return location;
-    }
-
-    public void setPrice(String price) {
-        this.price = price;
-    }
-
-    // Return a map so we can use it in firebase
-    public Map<String, Object> getSpotAsHashMap() {
-        Map<String, Object> spotHashMap = new HashMap<>();
-        spotHashMap.put("name", this.name);
-        spotHashMap.put("address", this.address);
-        spotHashMap.put("enabled", this.enabled);
-        spotHashMap.put("price", this.price);
-
-        return spotHashMap;
     }
 }
