@@ -48,10 +48,12 @@ public class MapsFragment extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
             map = googleMap;
             updateMapToLocationIfEnabled();
-            LatLng sydney = new LatLng(-34, 151);
-            map.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            map.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
+            final LatLng theTrapHouse = new LatLng(42.995935, -81.279263);
+            map.moveCamera(CameraUpdateFactory.newLatLng(theTrapHouse));
+            map.addMarker(
+                    new MarkerOptions()
+                            .position(theTrapHouse)
+                            .draggable(true));
         }
     };
 

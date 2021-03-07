@@ -1,5 +1,6 @@
 package com.parkanywhereonline;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -26,5 +27,10 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
+    }
+
+    public void launchAddSpotActivity(View view) {
+        Intent intent = new Intent(MainActivity.this, AddSpotActivity.class);
+        startActivity(intent);
     }
 }
