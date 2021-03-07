@@ -10,6 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.material.textfield.TextInputEditText;
+import com.parkanywhereonline.models.Location;
+import com.parkanywhereonline.models.Spot;
+import com.parkanywhereonline.models.firestore.UserCollection;
 
 public class AddSpotActivity extends AppCompatActivity {
 
@@ -33,6 +36,18 @@ public class AddSpotActivity extends AppCompatActivity {
 
     public void confirmSpot(View view) {
         Log.d("marker", marker.getPosition().latitude + ", " + marker.getPosition().longitude);
+        UserCollection userCollection = new UserCollection();
+
+        // Get variables
+        String getName = nameInput.getText().toString();
+        String getAddress = addressInput.getText().toString();
+        String getPrice = priceInput.getText().toString();
+        Location location = new Location(marker.getPosition().latitude, marker.getPosition().longitude);
+
+        // Generate spot object
+        Spot spot = new Spot(getName, getAddress, true, location, getPrice);
+        // Add spot to user by ID
+        userCollection.addSpotToUserByID(spot);
     }
 
     public void setMarker(Marker marker) {

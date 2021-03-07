@@ -75,7 +75,7 @@ public class SpotFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
         List spotList = new ArrayList<Spot>();
-        spotList.add(new Spot("Test", true, null));
+        spotList.add(new Spot("Trap house", "420 fox ave",true, null, "$0.00"));
 
         // Test spot read
         SpotsCollection spotsCollection = new SpotsCollection();
@@ -88,7 +88,6 @@ public class SpotFragment extends Fragment {
 //                        Log.d("Name", document.getString("name") + ", " + document.getString("address"));
                         String nameOfSpot = document.getString("name");
                         GeoPoint geoPoint = document.getGeoPoint("location");
-                        spotList.add(new Spot(nameOfSpot, true, new Location(geoPoint.getLatitude(), geoPoint.getLongitude())));
                     }
                 }
             }
