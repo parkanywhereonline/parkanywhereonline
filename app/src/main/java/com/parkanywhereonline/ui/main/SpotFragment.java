@@ -1,19 +1,36 @@
 package com.parkanywhereonline.ui.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.GeoPoint;
+import com.parkanywhereonline.EditParkingSpotActivity;
+import com.parkanywhereonline.MainActivity;
 import com.parkanywhereonline.R;
+import com.parkanywhereonline.models.Location;
+import com.parkanywhereonline.models.Spot;
+import com.parkanywhereonline.models.firestore.SpotsCollection;
 import com.parkanywhereonline.ui.main.dummy.DummyContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A fragment representing a list of Items.
@@ -51,10 +68,32 @@ public class SpotFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        List spotList = new ArrayList<Spot>();
+        spotList.add(new Spot("Test", true, null));
+
+        // Test spot read
+        SpotsCollection spotsCollection = new SpotsCollection();
+        spotsCollection.getSpotCollection().document("LeLDc4JzkxZkLm50bFpI").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+//                        Log.d("Name", document.getString("name") + ", " + document.getString("address"));
+                        String nameOfSpot = document.getString("name");
+                        GeoPoint geoPoint = document.getGeoPoint("location");
+                        spotList.add(new Spot(nameOfSpot, true, new Location(geoPoint.getLatitude(), geoPoint.getLongitude())));
+                    }
+                }
+            }
+        });
+
 
         // Set the adapter
         if (view instanceof RecyclerView) {
@@ -65,8 +104,13 @@ public class SpotFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MySpotRecyclerViewAdapter(DummyContent.ITEMS));
+            recyclerView.setAdapter(new MySpotRecyclerViewAdapter(spotList));
         }
         return view;
     }
+
+//    public void editSpotByID(View view) {
+//        Intent intent = new Intent(getActivity(), EditParkingSpotActivity.class);
+//        startActivity(intent);
+//    }
 }
